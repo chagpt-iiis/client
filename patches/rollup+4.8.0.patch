@@ -1,0 +1,79 @@
+diff --git a/node_modules/rollup/dist/es/shared/node-entry.js b/node_modules/rollup/dist/es/shared/node-entry.js
+index e5a28b5..94c7b3a 100644
+--- a/node_modules/rollup/dist/es/shared/node-entry.js
++++ b/node_modules/rollup/dist/es/shared/node-entry.js
+@@ -13047,6 +13047,7 @@ class Module {
+         const source = this.magicString.clone();
+         this.ast.render(source, options);
+         source.trim();
++        options.pluginDriver.hookReduceValueSync('jkmx$postRenderModule', null, [source, this], () => {});
+         const { usesTopLevelAwait } = this.astContext;
+         if (usesTopLevelAwait && options.format !== 'es' && options.format !== 'system') {
+             return error(logInvalidFormatForTopLevelAwait(this.id, options.format));
+@@ -16793,8 +16794,9 @@ async function transformChunk(magicString, fileName, usedModules, chunkGraph, op
+             resultingFile = resolve$1(dir, fileName);
+         else
+             resultingFile = resolve$1(fileName);
+-        const decodedMap = magicString.generateDecodedMap({});
++        const decodedMap = magicString.generateDecodedMap({ hires: env$1.NODE_ENV === 'production' });
+         map = collapseSourcemaps(resultingFile, decodedMap, usedModules, sourcemapChain, sourcemapExcludeSources, log);
++        await outputPluginDriver.hookSeq('jkmx$updateChunkMap', [map, resultingFile]);
+         for (let sourcesIndex = 0; sourcesIndex < map.sources.length; ++sourcesIndex) {
+             let sourcePath = map.sources[sourcesIndex];
+             const sourcemapPath = `${resultingFile}.map`;
+@@ -16944,7 +16946,7 @@ function emitSourceMapAndGetComment(fileName, map, pluginDriver, { sourcemap, so
+             : sourcemapFileName;
+         pluginDriver.emitFile({ fileName, source: map.toString(), type: 'asset' });
+     }
+-    return sourcemap === 'hidden' ? '' : `//# ${SOURCEMAPPING_URL}=${url}\n`;
++    return sourcemap === 'hidden' ? '' : `//# ${SOURCEMAPPING_URL}=${url}`;
+ }
+ 
+ class Bundle {
+@@ -16964,7 +16966,7 @@ class Bundle {
+         this.pluginDriver.setOutputBundle(outputBundle, this.outputOptions);
+         try {
+             timeStart('initialize render', 2);
+-            await this.pluginDriver.hookParallel('renderStart', [this.outputOptions, this.inputOptions]);
++            await this.pluginDriver.hookParallel('renderStart', [this.outputOptions, this.inputOptions, this]);
+             timeEnd('initialize render', 2);
+             timeStart('generate chunks', 2);
+             const getHashPlaceholder = getHashPlaceholderGenerator();
+@@ -16977,6 +16979,7 @@ class Bundle {
+                 chunk.generateExports();
+             }
+             timeEnd('generate chunks', 2);
++            await this.pluginDriver.hookParallel('jkmx$postGenerate', [this, chunks]);
+             await renderChunks(chunks, outputBundle, this.pluginDriver, this.outputOptions, this.inputOptions.onLog);
+         }
+         catch (error_) {
+@@ -17886,9 +17889,10 @@ class ModuleLoader {
+         if (resolveIdResult !== false && !this.options.external(id, importer, true)) {
+             return null;
+         }
++        const id_ = (x => x === true ? id : x)(this.options.external(id, importer, true));
+         return {
+-            external: isNotAbsoluteExternal(id, source, makeAbsoluteExternalsRelative) || 'absolute',
+-            id
++            external: isNotAbsoluteExternal(id_, source, makeAbsoluteExternalsRelative) || 'absolute',
++            id: id_
+         };
+     }
+     getResolveDynamicImportPromises(module) {
+diff --git a/node_modules/rollup/dist/shared/rollup.js b/node_modules/rollup/dist/shared/rollup.js
+index a38d56c..ec6c600 100644
+--- a/node_modules/rollup/dist/shared/rollup.js
++++ b/node_modules/rollup/dist/shared/rollup.js
+@@ -19982,10 +19982,12 @@ function defineConfig(options) {
+ 
+ exports.blue = blue;
+ exports.bold = bold;
++exports.collapseSourcemap = collapseSourcemap;
+ exports.commandAliases = commandAliases;
+ exports.createFilter = createFilter;
+ exports.cyan = cyan$1;
+ exports.cyan$1 = cyan;
++exports.decodedSourcemap = decodedSourcemap;
+ exports.defineConfig = defineConfig;
+ exports.ensureArray = ensureArray$1;
+ exports.getAugmentedNamespace = getAugmentedNamespace;

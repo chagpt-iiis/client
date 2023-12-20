@@ -1,0 +1,99 @@
+body {
+	background: url(./bg.jpg);
+	/* background-attachment: fixed; */
+	background-size: cover;
+	background-position: center;
+}
+
+.color-demo {
+	float: right;
+}
+
+.color-pick>.color-alpha-controller {
+	align-items: center;
+	display: flex;
+	margin-top: .5rem;
+}
+
+.color-pick>.color-alpha-controller>div {
+	align-items: center;
+	display: flex;
+	flex: 1;
+}
+
+.danmaku-time {
+	float: right;
+}
+
+.danmaku-region.desktop {
+	max-height: calc(100vh - 308px);
+}
+
+.danmaku-region.mobile {
+	max-height: calc(87.5vh - 332px);
+}
+
+.prompt {
+	color: #999;
+	font-size: smaller;
+}
+
+.repertoire {
+	overflow-y: auto;
+}
+
+.repertoire.desktop {
+	max-height: calc(100vh - 167px);
+}
+
+.repertoire.mobile {
+	max-height: calc(87.5vh - 191px);
+}
+
+.repertoire>.ui.table {
+	background-color: rgba(255, 255, 255, .333333);
+}
+
+.root-cover {
+	margin-left: -1rem;
+	margin-right: -1rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	background-color: rgba(255, 255, 255, .333333);
+}
+
+.template-color {
+	border-radius: .21428571rem;
+	cursor: pointer;
+	display: inline-block;
+	margin-right: .5rem;
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+.ui.grid>.column>.ui.segment, .ui.segment.tab {
+	background-color: rgba(255, 255, 255, .333333);
+}
+
+.ui.input.send-danmaku, .ui.segment.color-pick {
+	margin-left: -1px;
+	margin-right: -1px;
+}
+
+.ui.input.send-danmaku>input {
+	border-top-width: 0;
+	border-top-left-radius: 0;
+}
+
+.ui.input.send-danmaku.send-danmaku.send-danmaku>button {
+	border-top-right-radius: 0;
+}
+
+.ui.list.danmaku>.item {
+	padding-top: .32142857rem;
+}
+
+.ui.segment.danmaku-region {
+	background-color: rgba(255, 255, 255, .333333);
+	overflow-y: auto;
+}
