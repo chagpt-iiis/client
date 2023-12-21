@@ -33,13 +33,13 @@ export class Danmaku {
 	}
 
 	render() {
-		const time = new Date(this.time);
+		const time = new Date(this.time), isLight = ((this.color >> 24) & 255) + ((this.color >> 16) & 255) + ((this.color >> 8) & 255) >= 384;
 		return (
 			<List.Item
 				key={this.id}
 				style={{ color: `#${this.color.toString(16).padStart(8, '0')}` }}
 			>
-				<span>{this.content}</span>
+				<span className={isLight ? 'danmaku-light' : undefined}>{this.content}</span>
 				<span className="danmaku-time prompt" title={date2str(time)}>{date2timestr(time)}</span>
 			</List.Item>
 		);
@@ -130,7 +130,7 @@ export class DanmakuManager {
 	}
 
 	handleScrollEnd() {
-		this.isBottom = this.#hack0 || !this.element || this.element.scrollTop + this.element.clientHeight === this.element.scrollHeight;
+		this.isBottom = this.#hack0 || !this.element || this.element.scrollTop + this.element.clientHeight > this.element.scrollHeight - 1;
 		this.#hack0 = false;
 	}
 

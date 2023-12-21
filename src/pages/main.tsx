@@ -1,7 +1,7 @@
-import { Fragment, MouseEvent, createElement, useState } from 'react';
+import { MouseEvent, createElement, useState } from 'react';
 import { Grid, Header, Segment, Tab, TabProps } from 'semantic-ui-react';
 
-import Chat from '../components/Chat';
+// import Chat from '../components/Chat';
 import Danmaku from '../components/Danmaku';
 import Repertoire from '../components/Repertoire';
 import { renderRoot } from '../render';
@@ -9,7 +9,7 @@ import { isMobileCenter } from '../util/isMobile';
 
 const main: React.FC = () => {
 	const isMobile = isMobileCenter();
-	const [signTabActiveIndex, setSignTabActiveIndex] = useState(2);
+	const [signTabActiveIndex, setSignTabActiveIndex] = useState(1);
 
 	const handleTabChange = (_: MouseEvent, { activeIndex }: TabProps) => {
 		setSignTabActiveIndex(activeIndex as number);
@@ -17,7 +17,7 @@ const main: React.FC = () => {
 
 	const
 		repertoire = <Repertoire isMobile={isMobile} />,
-		chat = <Chat isMobile={isMobile} />,
+		// chat = <Chat isMobile={isMobile} />,
 		danmaku = <Danmaku isMobile={isMobile} />;
 
 	return (
@@ -25,11 +25,11 @@ const main: React.FC = () => {
 			{isMobile
 				? <Tab
 					activeIndex={signTabActiveIndex}
-					menu={{ widths: 3 }}
+					menu={{ widths: 2 }}
 					onTabChange={handleTabChange}
 					panes={[
 						{ menuItem: '节目单', pane: <Tab.Pane attached={false} key="repertoire">{repertoire}</Tab.Pane> },
-						{ menuItem: '聊天', pane: <Tab.Pane attached={false} key="chat">{chat}</Tab.Pane> },
+						// { menuItem: '聊天', pane: <Tab.Pane attached={false} key="chat">{chat}</Tab.Pane> },
 						{ menuItem: '弹幕', pane: <Tab.Pane attached={false} key="danmaku">{danmaku}</Tab.Pane> },
 					]}
 					renderActiveOnly={false}

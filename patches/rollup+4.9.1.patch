@@ -1,8 +1,8 @@
 diff --git a/node_modules/rollup/dist/es/shared/node-entry.js b/node_modules/rollup/dist/es/shared/node-entry.js
-index e5a28b5..94c7b3a 100644
+index d6e3d36..5132cd6 100644
 --- a/node_modules/rollup/dist/es/shared/node-entry.js
 +++ b/node_modules/rollup/dist/es/shared/node-entry.js
-@@ -13047,6 +13047,7 @@ class Module {
+@@ -13064,6 +13064,7 @@ class Module {
          const source = this.magicString.clone();
          this.ast.render(source, options);
          source.trim();
@@ -10,7 +10,7 @@ index e5a28b5..94c7b3a 100644
          const { usesTopLevelAwait } = this.astContext;
          if (usesTopLevelAwait && options.format !== 'es' && options.format !== 'system') {
              return error(logInvalidFormatForTopLevelAwait(this.id, options.format));
-@@ -16793,8 +16794,9 @@ async function transformChunk(magicString, fileName, usedModules, chunkGraph, op
+@@ -16811,8 +16812,9 @@ async function transformChunk(magicString, fileName, usedModules, chunkGraph, op
              resultingFile = resolve$1(dir, fileName);
          else
              resultingFile = resolve$1(fileName);
@@ -21,7 +21,7 @@ index e5a28b5..94c7b3a 100644
          for (let sourcesIndex = 0; sourcesIndex < map.sources.length; ++sourcesIndex) {
              let sourcePath = map.sources[sourcesIndex];
              const sourcemapPath = `${resultingFile}.map`;
-@@ -16944,7 +16946,7 @@ function emitSourceMapAndGetComment(fileName, map, pluginDriver, { sourcemap, so
+@@ -16962,7 +16964,7 @@ function emitSourceMapAndGetComment(fileName, map, pluginDriver, { sourcemap, so
              : sourcemapFileName;
          pluginDriver.emitFile({ fileName, source: map.toString(), type: 'asset' });
      }
@@ -30,7 +30,7 @@ index e5a28b5..94c7b3a 100644
  }
  
  class Bundle {
-@@ -16964,7 +16966,7 @@ class Bundle {
+@@ -16982,7 +16984,7 @@ class Bundle {
          this.pluginDriver.setOutputBundle(outputBundle, this.outputOptions);
          try {
              timeStart('initialize render', 2);
@@ -39,7 +39,7 @@ index e5a28b5..94c7b3a 100644
              timeEnd('initialize render', 2);
              timeStart('generate chunks', 2);
              const getHashPlaceholder = getHashPlaceholderGenerator();
-@@ -16977,6 +16979,7 @@ class Bundle {
+@@ -16995,6 +16997,7 @@ class Bundle {
                  chunk.generateExports();
              }
              timeEnd('generate chunks', 2);
@@ -47,7 +47,7 @@ index e5a28b5..94c7b3a 100644
              await renderChunks(chunks, outputBundle, this.pluginDriver, this.outputOptions, this.inputOptions.onLog);
          }
          catch (error_) {
-@@ -17886,9 +17889,10 @@ class ModuleLoader {
+@@ -17904,9 +17907,10 @@ class ModuleLoader {
          if (resolveIdResult !== false && !this.options.external(id, importer, true)) {
              return null;
          }
@@ -61,10 +61,10 @@ index e5a28b5..94c7b3a 100644
      }
      getResolveDynamicImportPromises(module) {
 diff --git a/node_modules/rollup/dist/shared/rollup.js b/node_modules/rollup/dist/shared/rollup.js
-index a38d56c..ec6c600 100644
+index cc82575..2beb394 100644
 --- a/node_modules/rollup/dist/shared/rollup.js
 +++ b/node_modules/rollup/dist/shared/rollup.js
-@@ -19982,10 +19982,12 @@ function defineConfig(options) {
+@@ -20000,10 +20000,12 @@ function defineConfig(options) {
  
  exports.blue = blue;
  exports.bold = bold;

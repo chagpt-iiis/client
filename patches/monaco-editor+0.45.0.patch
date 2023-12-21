@@ -1,0 +1,13 @@
+diff --git a/node_modules/monaco-editor/esm/vs/base/browser/defaultWorkerFactory.js b/node_modules/monaco-editor/esm/vs/base/browser/defaultWorkerFactory.js
+index fe0d700..da9daca 100644
+--- a/node_modules/monaco-editor/esm/vs/base/browser/defaultWorkerFactory.js
++++ b/node_modules/monaco-editor/esm/vs/base/browser/defaultWorkerFactory.js
+@@ -14,7 +14,7 @@ function getWorker(label) {
+         }
+         if (typeof monacoEnvironment.getWorkerUrl === 'function') {
+             const workerUrl = monacoEnvironment.getWorkerUrl('workerMain.js', label);
+-            return new Worker(ttPolicy ? ttPolicy.createScriptURL(workerUrl) : workerUrl, { name: label });
++            return new Worker(ttPolicy ? ttPolicy.createScriptURL(workerUrl) : workerUrl, { name: label, type: 'module' });
+         }
+     }
+     // ESM-comment-begin

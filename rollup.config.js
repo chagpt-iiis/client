@@ -1,20 +1,38 @@
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
-import { extname, relative } from 'path';
+import { basename, extname, relative } from 'path';
 import { defineConfig } from 'rollup';
 import esbuild, { minify } from 'rollup-plugin-esbuild';
 import externalGlobals from 'rollup-plugin-external-globals';
 
-import { getRoot, jkmx } from './build.js';
+import { EDITOR_WORKER_URL_INIT, WORKER_MODULE, getRoot, jkmx } from './build.js';
 
 const ROOT = getRoot();
 
 function splitRule(id) {
+	if (id === EDITOR_WORKER_URL_INIT)
+		return 'monaco';
 	const relaPath = relative(ROOT, id);
+	switch (relaPath) {
+		case 'src/components/Chat.tsx':
+		case 'src/components/Danmaku.tsx':
+		case 'src/components/Repertoire.tsx':
+		case 'src/libs/api.ts':
+		case 'src/libs/danmaku.tsx':
+			return null;
+	}
 	if (relaPath.startsWith('src/pages/'))
 		return 'entry';
-	return 'chagpt';
+	if (relaPath === 'node_modules/monaco-editor/esm/vs/nls.js')
+		return 'monaco-common';
+	if (/^node_modules\/monaco-editor\/esm\/vs\/.+\/common\//.test(relaPath))
+		return 'monaco-common';
+	if (relaPath.startsWith('node_modules/monaco-editor/'))
+		return 'monaco';
+	if (relaPath.startsWith('src/components/editor/'))
+		return 'monaco';
+	return 'libs';
 }
 
 export default Promise.resolve().then(() => defineConfig({
@@ -28,7 +46,15 @@ export default Promise.resolve().then(() => defineConfig({
 		return false;
 	},
 	input: {
-		main: './src/pages/main.tsx',
+		chagpt: './src/pages/main.tsx',
+		admin: './src/pages/admin.tsx',
+		/******** monaco-editor workers ********/
+		'editor.worker': `./node_modules/${WORKER_MODULE.DEFAULT.identifier}`,
+		'json.worker': `./node_modules/${WORKER_MODULE.JSON.identifier}`,
+		'css.worker': `./node_modules/${WORKER_MODULE.CSS.identifier}`,
+		'html.worker': `./node_modules/${WORKER_MODULE.HTML.identifier}`,
+		'ts.worker': `./node_modules/${WORKER_MODULE.TS.identifier}`,
+		/******** phony (make exports) ********/
 	},
 	plugins: [
 		commonjs(),
@@ -68,7 +94,12 @@ export default Promise.resolve().then(() => defineConfig({
 		chunkFileNames: 'js/[name].[hash].js',
 		compact: process.env.NODE_ENV === 'production',
 		dir: './dist',
-		entryFileNames: 'js/[name].[hash].js',
+		entryFileNames: chunkInfo => {
+			if (chunkInfo.name.endsWith('.worker')) {
+				return `js/workers/${basename(chunkInfo.name, '.worker')}.[hash].js`;
+			}
+			return 'js/[name].[hash].js';
+		},
 		format: 'es',
 		generatedCode: 'es2015',
 		hoistTransitiveImports: false, // use <link rel="preload" />.

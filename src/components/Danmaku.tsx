@@ -23,6 +23,13 @@ const templateColors = [
 	0xf15c02, // #f15c02 / #e0967a / #ffb99e
 	0x4a2299, // #4a2299 / #a68ed5 / #ebe2fc
 	0x733809, // #733809 / #c18c5f / #f2d1b5
+
+	0xf2bbc7,
+	0xaeaeb2,
+	0xa0a8e1,
+	0xe0967a,
+	0xa68ed5,
+	0xc18c5f,
 ];
 
 { //////// ONLY FOR DEBUG
@@ -45,6 +52,8 @@ const DanmakuRegion: React.FC<DanmakuRegionProps> = props => {
 	const inputColor = useRef<HTMLInputElement>(null);
 	const [alpha, setAlpha] = useState(255);
 
+	const isLight = ((color >> 16) & 255) + ((color >> 8) & 255) + (color & 255) >= 384;
+
 	function handleChange({ target }: { target: { value: string } }) {
 		setText(target.value);
 	}
@@ -65,8 +74,8 @@ const DanmakuRegion: React.FC<DanmakuRegionProps> = props => {
 	}
 
 	function proposeDanmaku() {
-		if (!text) return;
-		Manager.propose(text, color * 256 + alpha);
+		if (!text.trim()) return;
+		Manager.propose(text.trim(), color * 256 + alpha);
 		setText('');
 		input.current?.focus();
 	}
@@ -97,6 +106,7 @@ const DanmakuRegion: React.FC<DanmakuRegionProps> = props => {
 				}}
 				icon="align left"
 				iconPosition="left"
+				maxLength={128}
 				onChange={handleChange}
 				onKeyDown={(e: KeyboardEvent) => {
 					if ((e.key === 'Enter' || e.code === 'Enter') && !e.nativeEvent.isComposing) {
@@ -116,7 +126,7 @@ const DanmakuRegion: React.FC<DanmakuRegionProps> = props => {
 							onClick={() => setColorByTheme(color)}
 						/>
 					))}
-					<div className="color-demo" style={{ color: `#${color.toString(16).padStart(6, '0')}${alpha.toString(16).padStart(2, '0')}` }}>CháGPT</div>
+					<div className={isLight ? 'color-demo danmaku-light' : 'color-demo'} style={{ color: `#${color.toString(16).padStart(6, '0')}${alpha.toString(16).padStart(2, '0')}` }}>CháGPT</div>
 				</div>
 				<div className="color-alpha-controller">
 					<div>

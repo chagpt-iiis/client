@@ -1,7 +1,9 @@
-import { createElement, Fragment, useState } from 'react';
+import { createElement, Fragment, useEffect, useRef } from 'react';
 import { Table } from 'semantic-ui-react';
 
+import { create, StoreApi, UseBoundStore } from 'zustand';
 import { api } from '../libs/api';
+import { assert } from '../util/type';
 
 interface Program {
 	id: number;
@@ -19,31 +21,23 @@ interface RepertoireProps {
 	readonly isMobile: boolean;
 }
 
-/*vvvvvvvv DELETE THIS IN RELEASE vvvvvvvv*/
-const defaultRepertoire = {
-	programs: [
-		{ id: 1, name: '人工智能入门', performer: '吴翼 高阳', time: '8:00' },
-		{ id: 2, name: '量子计算机科学', performer: '段路明', time: '9:50' },
-		{ id: 3, name: '计算理论', performer: '段然', time: '13:30' },
-		{ id: 4, name: '这是一个名字很长很长很长很长很长很长很长很长很长的节目', performer: '张三 李四 王五 赵六 孙七 周八 吴九 郑十', time: '18:00' },
-		...Array.from({ length: 40 }).map((_, i) => ({
-			id: i + 5,
-			name: '节目数量很多',
-			performer: 'Lorem ipsum',
-			time: `18:${i + 10}`,
-		})),
-	],
-	current: 3,
-}
-/*^^^^^^^^ DELETE THIS IN RELEASE ^^^^^^^^*/
+const RepertoireCenter: UseBoundStore<StoreApi<Repertoire>> = create(
+	(set, get, api) => {
+		assert(api.getState === get);
+		assert(api.setState === set);
+		return { programs: [], current: 0 };
+	}
+);
 
-const Repertoire: React.FC<RepertoireProps> = props => {
-	const [repertoire, setRepertoire] = useState<Repertoire>(
-		// { programs: [], current: 0 }
-		defaultRepertoire
-	);
+const RepertoireRegion: React.FC<RepertoireProps> = props => {
+	const repertoire = RepertoireCenter();
+	const current = useRef<HTMLElement | null>(null);
 
-	api.on('repertoire', setRepertoire);
+	useEffect(() => {
+		current.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+	}, [repertoire]);
+
+	api.on('repertoire', (data: Repertoire) => RepertoireCenter.setState(data));
 
 	return (
 		<>
@@ -64,6 +58,11 @@ const Repertoire: React.FC<RepertoireProps> = props => {
 									key={program.id}
 									active={program.id === repertoire.current}
 									positive={program.id < repertoire.current}
+									ref={(ref: HTMLElement) => {
+										if (program.id === repertoire.current) {
+											current.current = ref;
+										}
+									}}
 								>
 									<Table.Cell content={program.id} />
 									<Table.Cell content={program.name} />
@@ -79,6 +78,6 @@ const Repertoire: React.FC<RepertoireProps> = props => {
 	);
 };
 
-Repertoire.displayName = 'Repertoire';
+RepertoireRegion.displayName = 'Repertoire';
 
-export default Repertoire;
+export default RepertoireRegion;

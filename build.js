@@ -53,10 +53,44 @@ function updateSourceMap(sourceMap, absoluteDirName) {
 }
 
 const
-	codeMap = new Map();
-
+	codeMap = new Map(),
+	EDITOR_WORKER_URL_INIT = 'editor-worker-url-init',
+	WORKER_MODULE = {
+		JSON: { identifier: 'monaco-editor/esm/vs/language/json/json.worker.js' },
+		CSS: { identifier: 'monaco-editor/esm/vs/language/css/css.worker.js' },
+		HTML: { identifier: 'monaco-editor/esm/vs/language/html/html.worker.js' },
+		TS: { identifier: 'monaco-editor/esm/vs/language/typescript/ts.worker.js' },
+		DEFAULT: { identifier: 'monaco-editor/esm/vs/editor/editor.worker.js' },
+	};
+let jkmx$bundleObject;
 export class jkmx {
 	name = 'jkmx';
+
+	resolveId(source) { // monaco
+		if (source === EDITOR_WORKER_URL_INIT) return source;
+		return null;
+	}
+
+	load(id) { // monaco
+		if (id === EDITOR_WORKER_URL_INIT) {
+			return {
+				code: `\
+(globalThis.MonacoEnvironment ??= {}).getWorkerUrl ??= (workerId, label) => {
+	if (label === 'json')
+		return '${WORKER_MODULE.JSON.identifier}';
+	if (label === 'css' || label === 'scss' || label === 'less')
+		return '${WORKER_MODULE.CSS.identifier}';
+	if (label === 'html' || label === 'handlebars' || label === 'razor')
+		return '${WORKER_MODULE.HTML.identifier}';
+	if (label === 'typescript' || label === 'javascript')
+		return '${WORKER_MODULE.TS.identifier}';
+	return '${WORKER_MODULE.DEFAULT.identifier}';
+}
+`
+			};
+		}
+		return null;
+	}
 
 	transform(code, id) { // css
 		if (id.endsWith('.css')) {
@@ -172,6 +206,24 @@ export class jkmx {
 	jkmx$updateChunkMap(sourceMap, fileName) { // source-map
 		updateSourceMap(sourceMap, dirname(fileName));
 	}
+
+	async jkmx$postGenerate(bundle, chunks) { // init
+		jkmx$bundleObject = bundle;
+		await Promise.all(Object.values(WORKER_MODULE).map(
+			obj => this.resolve(obj.identifier).then(path => obj.resolved = path)
+		));
+	}
+
+	jkmx$postRenderModule(source, module) { // monaco replacer + module-trie
+		console.log(`\x1b[36mRendered \x1b[33m${module.id}\x1b[36m !\x1b[0m`);
+		if (module.id === EDITOR_WORKER_URL_INIT) {
+			for (const { identifier, resolved } of Object.values(WORKER_MODULE)) {
+				const module2 = module.graph.modulesById.get(resolved.id);
+				const chunk = jkmx$bundleObject.facadeChunkByModule.get(module2);
+				source.replace(identifier, `/${chunk.getFileName()}`);
+			}
+		}
+	}
 };
 
 async function build() {
@@ -196,14 +248,16 @@ async function emit(bundle) {
 	}
 }
 
-async function doUpdateConfig() {
-	let index = await readFile('dist/index.html', 'utf8')
+function doUpdateConfig() {
+	return Promise.all(['index', 'admin'].map(async entry => {
+		let index = await readFile(`dist/${entry}.html`, 'utf8')
 
-	for (const [k, v] of files.entries()) {
-		index = index.replaceAll(k, v);
-	}
+		for (const [k, v] of files.entries()) {
+			index = index.replaceAll(k, v);
+		}
 
-	await writeFile('dist/index.html', index);
+		await writeFile(`dist/${entry}.html`, index);
+	}));
 }
 
 if (process.argv.length > 1 && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
@@ -225,3 +279,5 @@ if (process.argv.length > 1 && resolve(process.argv[1]) === fileURLToPath(import
 		console.log(e);
 	}
 }
+
+export { EDITOR_WORKER_URL_INIT, WORKER_MODULE };
