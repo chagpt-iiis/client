@@ -1,7 +1,8 @@
 .editor {
 	border: 1px solid rgba(34, 36, 38, .15);
-	height: 100%;
-	min-height: 600px;
+	height: 600px;
+	/* height: 100%; */
+	/* min-height: 600px; */
 }
 
 .editor .inputarea.inputarea.inputarea.inputarea.inputarea {
