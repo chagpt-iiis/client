@@ -2,10 +2,7 @@ import { Emitter } from '@socket.io/component-emitter';
 
 import { socket } from '../util/socket';
 
-export const conn = socket('/chagpt');
-
-export const api = new Emitter();
-
+export const conn = socket('/chagpt'), api = new Emitter();
 conn.on('data', (data: string | ArrayBuffer) => {
 	let json, type;
 	try {

@@ -1,12 +1,9 @@
 import { openDB } from 'idb';
 import { createElement, type ReactNode } from 'react';
 import { List } from 'semantic-ui-react';
+
 import { date2str, date2timestr } from '../util/date';
 import { api, conn } from './api';
-
-declare module 'zustand' {
-	function useStore(manager: DanmakuManager): Record<string, string>;
-}
 
 export class Danmaku {
 	/** The id of the danmaku. */
@@ -15,7 +12,7 @@ export class Danmaku {
 	content: string;
 	/** The time when the danmaku is sent. */
 	time: number;
-	/** TODO: The color of the danmaku. */
+	/** The color of the danmaku. */
 	color: number;
 
 	#cachedElement: ReactNode;
@@ -68,6 +65,10 @@ function merge(xs: Danmaku[], ys: Danmaku[]) {
 		for (; j < ys.length && ys[j].id === cur.id; ++j);
 	}
 	return result;
+}
+
+declare module 'zustand' {
+	function useStore(manager: DanmakuManager): void;
 }
 
 export class DanmakuManager {
@@ -180,6 +181,7 @@ export class DanmakuManager {
 		}
 		return slices.reverse().flat();
 	}
+
 
 	getState() {
 		return this.#nonce;

@@ -1,6 +1,6 @@
 body {
 	background: url(./bg.jpg);
-	/* background-attachment: fixed; */
+	background-attachment: fixed;
 	background-size: cover;
 	background-position: center;
 }
@@ -29,14 +29,6 @@ body {
 	float: right;
 }
 
-.danmaku-region.desktop {
-	max-height: calc(100vh - 308px);
-}
-
-.danmaku-region.mobile {
-	max-height: calc(87.5vh - 332px);
-}
-
 .prompt {
 	color: #999;
 	font-size: smaller;
@@ -58,6 +50,22 @@ body {
 	background-color: rgba(255, 255, 255, .333333);
 }
 
+.repertoire>.ui.ui.ui.ui.table tr.positive {
+	background-color: rgba(247, 255, 230, .333333);
+}
+
+.repertoire>.ui.ui.ui.ui.table tr.positive:hover {
+	background-color: rgba(247, 255, 230);
+}
+
+.repertoire>.ui.ui.ui.ui.table tr.active {
+	background-color: rgba(224, 224, 224, .666667);
+}
+
+.repertoire>.ui.ui.ui.ui.table tr.active:hover {
+	background-color: rgba(224, 224, 224);
+}
+
 .root-cover {
 	margin-left: -1rem;
 	margin-right: -1rem;
@@ -73,6 +81,11 @@ body {
 	margin-right: .35714286rem;
 	height: 1.5rem;
 	width: 1.5rem;
+}
+
+.ui.button.danmaku-check {
+	padding: 5px 7px;
+	width: 100px;
 }
 
 .ui.grid>.column>.ui.segment, .ui.segment.tab {
@@ -100,4 +113,21 @@ body {
 .ui.segment.danmaku-region {
 	background-color: rgba(255, 255, 255, .333333);
 	overflow-y: auto;
+}
+
+.ui.segment.danmaku-region.desktop {
+	max-height: calc(100vh - 308px);
+}
+
+.ui.segment.danmaku-region.mobile {
+	max-height: calc(87.5vh - 332px);
+}
+
+.danmaku-check-region {
+	height: 600px;
+	overflow-y: auto;
+}
+
+.danmaku-check-region>.ui.fixed.table td {
+	overflow-wrap: break-word;
 }

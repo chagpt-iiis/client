@@ -14,15 +14,15 @@ window.addEventListener('beforeunload', (e) => {
 });
 
 const templateColors = [
-	0x000000, // default
-			  // colors are picked from host themes
-			  // darker  / normal  / lighter
-	0xbf2849, // #bf2849 / #f2bbc7 / #ffe6f0
-	0x5b6f7e, // #5b6f7e / #aeaeb2 / #dedee4
-	0x23326d, // #23326d / #a0a8e1 / #b8bff5
-	0xf15c02, // #f15c02 / #e0967a / #ffb99e
-	0x4a2299, // #4a2299 / #a68ed5 / #ebe2fc
-	0x733809, // #733809 / #c18c5f / #f2d1b5
+	0x000000,	// default
+				// colors are picked from host themes
+				// darker  / normal  / lighter
+	0xbf2849,	// #bf2849 / #f2bbc7 / #ffe6f0
+	0x5b6f7e,	// #5b6f7e / #aeaeb2 / #dedee4
+	0x23326d,	// #23326d / #a0a8e1 / #b8bff5
+	0xf15c02,	// #f15c02 / #e0967a / #ffb99e
+	0x4a2299,	// #4a2299 / #a68ed5 / #ebe2fc
+	0x733809,	// #733809 / #c18c5f / #f2d1b5
 
 	0xf2bbc7,
 	0xaeaeb2,
@@ -33,6 +33,7 @@ const templateColors = [
 ];
 
 { //////// ONLY FOR DEBUG
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const global = globalThis as any;
 	global.Danmaku = Danmaku;
 	global.danmakuManager = Manager;

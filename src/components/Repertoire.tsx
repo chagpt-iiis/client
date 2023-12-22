@@ -29,6 +29,8 @@ const RepertoireCenter: UseBoundStore<StoreApi<Repertoire>> = create(
 	}
 );
 
+api.on('repertoire', (data: Repertoire) => RepertoireCenter.setState(data));
+
 const RepertoireRegion: React.FC<RepertoireProps> = props => {
 	const repertoire = RepertoireCenter();
 	const current = useRef<HTMLElement | null>(null);
@@ -36,8 +38,6 @@ const RepertoireRegion: React.FC<RepertoireProps> = props => {
 	useEffect(() => {
 		current.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 	}, [repertoire]);
-
-	api.on('repertoire', (data: Repertoire) => RepertoireCenter.setState(data));
 
 	return (
 		<>
