@@ -9,6 +9,7 @@ import { checkIntRange } from '../util/nt';
 import { socket } from '../util/socket';
 import { AsyncFunction, assert } from '../util/type';
 import { useStore } from 'zustand';
+import { date2str } from '../util/date';
 
 type CheckFunction = (content: string, color: number) => Promise<number>;
 
@@ -31,7 +32,6 @@ try {
 	const f = await new AsyncFunction(localStorage.getItem('check-script') ?? '')();
 	if (typeof f === 'function') checkF = f;
 } catch { }
-
 { //////// ONLY FOR DEBUG
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const global = globalThis as any;
@@ -57,6 +57,14 @@ api.on('danmaku', async (raw: DanmakuCheck) => {
 });
 
 
+interface LotteryLog {
+	block: number,
+	hash: string,
+	blockTime: number,
+	now: number,
+}
+
+
 const admin: React.FC = () => {
 	useStore(Manager);
 
@@ -80,10 +88,17 @@ const admin: React.FC = () => {
 		setRepertoire.current(JSON.stringify(data, null, '\t'));
 	}
 
+	const [logs, setLogs] = useState<LotteryLog[]>([]);
+	function handleApiLottery(log: LotteryLog) {
+		setLogs(logs => logs.concat(log));
+	}
+
 	useEffect(() => {
 		api.on('repertoire', handleApiRepertoire);
+		api.on('lottery', handleApiLottery);
 		return () => {
 			api.off('repertoire', handleApiRepertoire);
+			api.off('lottery', handleApiLottery);
 		}
 	}, []);
 
@@ -181,6 +196,27 @@ const admin: React.FC = () => {
 					</Table.Body>
 				</Table>
 			</div>
+			<Divider />
+			<Table textAlign="center" celled compact selectable unstackable>
+				<Table.Header>
+					<Table.Row>
+						<Table.HeaderCell content="#" />
+						<Table.HeaderCell content="Hash 值 (种子)" />
+						<Table.HeaderCell content="块时间" />
+						<Table.HeaderCell content="抽奖时间" />
+					</Table.Row>
+				</Table.Header>
+				<Table.Body>
+					{logs.map(log => (
+						<Table.Row key={log.block}>
+							<Table.Cell content={log.block} />
+							<Table.Cell content={log.hash} />
+							<Table.Cell content={date2str(new Date(log.blockTime))} />
+							<Table.Cell content={date2str(new Date(log.now))} />
+						</Table.Row>
+					))}
+				</Table.Body>
+			</Table>
 		</div>
 	);
 }
