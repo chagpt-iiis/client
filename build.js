@@ -129,6 +129,7 @@ export class jkmx {
 					source = codeMap.get(file),
 					content = new MagicString(source);
 				for (const { 1: match, indices: { 1: [l, r] } } of source.matchAll(/\burl\((.+?)\)/dg)) {
+					if (match.includes('data:')) continue;
 					const url = resolve(dirname(file), match);
 					const id = this.emitFile({
 						name: basename(match),
@@ -249,7 +250,7 @@ async function emit(bundle) {
 }
 
 function doUpdateConfig() {
-	return Promise.all(['index', 'admin'].map(async entry => {
+	return Promise.all(['index', 'admin', 'danmaku'].map(async entry => {
 		let index = await readFile(`dist/${entry}.html`, 'utf8')
 
 		for (const [k, v] of files.entries()) {

@@ -1,4 +1,4 @@
-import { Emitter } from '@socket.io/component-emitter';
+import assert from 'nanoassert';
 import { ChangeEvent, createElement, useEffect, useRef, useState } from 'react';
 import { Button, Divider, Grid, Input, Table } from 'semantic-ui-react';
 
@@ -6,14 +6,14 @@ import Editor from '../components/editor/Editor';
 import { DanmakuCheck, DanmakuCheckManager } from '../libs/danmakuCheck';
 import { renderRoot } from '../render';
 import { checkIntRange } from '../util/nt';
-import { socket } from '../util/socket';
-import { AsyncFunction, assert } from '../util/type';
+import { Emitter, socket } from '../util/socket';
+import { AsyncFunction } from '../util/type';
 import { useStore } from 'zustand';
 import { date2str } from '../util/date';
 
 type CheckFunction = (content: string, color: number) => Promise<number>;
 
-const conn = socket('/chagpt-admin'), api = new Emitter();
+const conn = socket(new URL('https://43.138.56.99/admin')), api = new Emitter();
 conn.on('data', (data: string | ArrayBuffer) => {
 	let json, type;
 	try {

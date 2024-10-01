@@ -48,7 +48,7 @@ const DanmakuRegion: React.FC<DanmakuRegionProps> = props => {
 	useEffect(Manager.scroll, [Manager.getState()]);
 
 	const [text, setText] = useState('');
-	const input = useRef<Input>(null);
+	const input = useRef<HTMLInputElement>(null);
 	const [color, setColor] = useState(0);
 	const inputColor = useRef<HTMLInputElement>(null);
 	const [alpha, setAlpha] = useState(255);
@@ -86,7 +86,7 @@ const DanmakuRegion: React.FC<DanmakuRegionProps> = props => {
 			<Segment
 				attached="top"
 				className={`danmaku-region ${props.isMobile ? 'mobile' : 'desktop'}`}
-				ref={(ref: HTMLElement) => {
+				ref={(ref: HTMLDivElement | null) => {
 					Manager.element?.removeEventListener('scrollend', Manager.handleScrollEnd);
 					ref?.removeEventListener('scrollend', Manager.handleScrollEnd);
 					(Manager.element = ref)?.addEventListener('scrollend', Manager.handleScrollEnd);

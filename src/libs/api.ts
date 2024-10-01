@@ -1,8 +1,6 @@
-import { Emitter } from '@socket.io/component-emitter';
+import { Emitter, socket } from '../util/socket';
 
-import { socket } from '../util/socket';
-
-export const conn = socket('/chagpt'), api = new Emitter();
+export const conn = socket(new URL('https://43.138.56.99/main')), api = new Emitter();
 conn.on('data', (data: string | ArrayBuffer) => {
 	let json, type;
 	try {

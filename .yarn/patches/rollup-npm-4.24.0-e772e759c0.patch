@@ -1,8 +1,8 @@
-diff --git a/node_modules/rollup/dist/es/shared/node-entry.js b/node_modules/rollup/dist/es/shared/node-entry.js
-index d6e3d36..5132cd6 100644
---- a/node_modules/rollup/dist/es/shared/node-entry.js
-+++ b/node_modules/rollup/dist/es/shared/node-entry.js
-@@ -13064,6 +13064,7 @@ class Module {
+diff --git a/dist/es/shared/node-entry.js b/dist/es/shared/node-entry.js
+index e2d69227c5f2a2d9e5f3341f617476f3c0506131..6dc52dfa42d7ec3cf8918e4e746016b241b8478d 100644
+--- a/dist/es/shared/node-entry.js
++++ b/dist/es/shared/node-entry.js
+@@ -15844,6 +15844,7 @@ class Module {
          const source = this.magicString.clone();
          this.ast.render(source, options);
          source.trim();
@@ -10,7 +10,7 @@ index d6e3d36..5132cd6 100644
          const { usesTopLevelAwait } = this.astContext;
          if (usesTopLevelAwait && options.format !== 'es' && options.format !== 'system') {
              return error(logInvalidFormatForTopLevelAwait(this.id, options.format));
-@@ -16811,8 +16812,9 @@ async function transformChunk(magicString, fileName, usedModules, chunkGraph, op
+@@ -18815,8 +18816,9 @@ async function transformChunk(magicString, fileName, usedModules, chunkGraph, op
              resultingFile = resolve$1(dir, fileName);
          else
              resultingFile = resolve$1(fileName);
@@ -21,16 +21,16 @@ index d6e3d36..5132cd6 100644
          for (let sourcesIndex = 0; sourcesIndex < map.sources.length; ++sourcesIndex) {
              let sourcePath = map.sources[sourcesIndex];
              const sourcemapPath = `${resultingFile}.map`;
-@@ -16962,7 +16964,7 @@ function emitSourceMapAndGetComment(fileName, map, pluginDriver, { sourcemap, so
-             : sourcemapFileName;
-         pluginDriver.emitFile({ fileName, source: map.toString(), type: 'asset' });
+@@ -18973,7 +18975,7 @@ function emitSourceMapAndGetComment(fileName, map, pluginDriver, { sourcemap, so
+             type: 'asset'
+         });
      }
 -    return sourcemap === 'hidden' ? '' : `//# ${SOURCEMAPPING_URL}=${url}\n`;
 +    return sourcemap === 'hidden' ? '' : `//# ${SOURCEMAPPING_URL}=${url}`;
  }
  
  class Bundle {
-@@ -16982,7 +16984,7 @@ class Bundle {
+@@ -18993,7 +18995,7 @@ class Bundle {
          this.pluginDriver.setOutputBundle(outputBundle, this.outputOptions);
          try {
              timeStart('initialize render', 2);
@@ -39,7 +39,7 @@ index d6e3d36..5132cd6 100644
              timeEnd('initialize render', 2);
              timeStart('generate chunks', 2);
              const getHashPlaceholder = getHashPlaceholderGenerator();
-@@ -16995,6 +16997,7 @@ class Bundle {
+@@ -19006,6 +19008,7 @@ class Bundle {
                  chunk.generateExports();
              }
              timeEnd('generate chunks', 2);
@@ -47,7 +47,7 @@ index d6e3d36..5132cd6 100644
              await renderChunks(chunks, outputBundle, this.pluginDriver, this.outputOptions, this.inputOptions.onLog);
          }
          catch (error_) {
-@@ -17904,9 +17907,10 @@ class ModuleLoader {
+@@ -19944,9 +19947,10 @@ class ModuleLoader {
          if (resolveIdResult !== false && !this.options.external(id, importer, true)) {
              return null;
          }
@@ -60,11 +60,11 @@ index d6e3d36..5132cd6 100644
          };
      }
      getResolveDynamicImportPromises(module) {
-diff --git a/node_modules/rollup/dist/shared/rollup.js b/node_modules/rollup/dist/shared/rollup.js
-index cc82575..2beb394 100644
---- a/node_modules/rollup/dist/shared/rollup.js
-+++ b/node_modules/rollup/dist/shared/rollup.js
-@@ -20000,10 +20000,12 @@ function defineConfig(options) {
+diff --git a/dist/shared/rollup.js b/dist/shared/rollup.js
+index 2dfd6d5977aef596ac8f2be0f0ad6b7538b4bc22..63bb308abb2c60dab6d5dde8c3a1d59aad2092a8 100644
+--- a/dist/shared/rollup.js
++++ b/dist/shared/rollup.js
+@@ -22154,10 +22154,12 @@ function defineConfig(options) {
  
  exports.blue = blue;
  exports.bold = bold;

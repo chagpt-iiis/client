@@ -1,5 +1,6 @@
+import assert from 'nanoassert';
+
 import { Buffer } from '../buffer';
-import { assert } from './type';
 
 /**
  * Compute the GCD (greatest common divisor) of two bigints.
@@ -55,9 +56,9 @@ export function clipInt(value: unknown, low: number, high: number, defaultValue:
  * @returns the [i, i+1, i+2, ..., j-1] list
  */
 export function range(start: unknown, stop: unknown, step: unknown = 1) {
-	assert(Number.isSafeInteger(start) && Number.isSafeInteger(stop) && Number.isSafeInteger(step));
+	assert(Number.isSafeInteger(start) && Number.isSafeInteger(stop) && Number.isSafeInteger(step), 'All arguments must be integers');
 	const length = Math.floor((stop - start + step - Math.sign(step)) / step);
-	assert(checkIntRange(length, 0, 0xffffff));
+	assert(checkIntRange(length, 0, 0xffffff), 'The length of the range is too long');
 	return Array.from({ length }, (_, idx) => start + step * idx);
 }
 

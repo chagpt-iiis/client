@@ -1,9 +1,5 @@
 export const AsyncFunction: FunctionConstructor = Object.getPrototypeOf(async function () {/* get prototype */}).constructor;
 
-export function assert(expression: unknown): asserts expression {
-	if (!expression) throw new Error('Assertion failed');
-}
-
 export function isObject(value: unknown): value is object {
 	return value?.constructor === Object && Object.prototype.toString.call(value) === '[object Object]' && Object.getPrototypeOf(value) === Object.prototype;
 }
@@ -15,19 +11,19 @@ export function isEmptyObject(value: unknown, allowArray = true) {
 }
 
 /**
- * Convert an error into a '\n'-separted string.
+ * Convert an error into a '\n'-separated string.
  * @param err The error to be converted, may not be an `Error` object.
  * @returns The result string.
  */
 export function err2str(err: unknown): string {
-	const stack = (<{ stack: unknown }>err)?.stack, str = err?.toString?.() ?? '';
+	const stack = (<{ stack: unknown }>err)?.stack, str = `${err}`;
 	if (typeof stack !== 'string') return str;
 	const pos = (stack + '\n').indexOf('\n'), msg = (<{ message: string }>err)?.message;
-	return str + (
+	return (str + (
 		msg && stack.substring(0, pos).includes(msg)
 			? stack.substring(pos)
 			: '\n' + stack
-	);
+	)).trim();
 }
 
 /**

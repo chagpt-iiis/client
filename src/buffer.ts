@@ -1,12 +1,7 @@
-import { cc2str } from './util/string';
-import { assert } from './util/type';
+import assert from 'nanoassert';
 
-export type base64UrlString = string;
-export type base64String = string;
-export type binaryString = string;
-export type hexString = string;
-export type BufferEntry = base64UrlString | base64String | binaryString | Uint8Array | hexString | bigint;
-export type BufferTransform = (x: BufferEntry) => BufferEntry;
+import type { BufferEntry, BufferTransform, base64String, base64UrlString, binaryString, hexString } from './models/buffer';
+import { cc2str } from './util/string';
 
 const
 	textEncoder = new TextEncoder(),
@@ -87,10 +82,21 @@ export class Buffer {
 
 	toJSON() { return this.asBase64(); }
 
+	async sha1() {
+		return new Buffer(3, new Uint8Array(
+			await crypto.subtle.digest('SHA-1', this.asUint8Array())
+		));
+	}
+
 	async sha256() {
 		return new Buffer(3, new Uint8Array(
 			await crypto.subtle.digest('SHA-256', this.asUint8Array())
 		));
+	}
+
+	equals(rhs: Buffer) {
+		const self = this.asUint8Array(), that = rhs.asUint8Array();
+		return self.length === that.length && self.every((x, i) => x === that[i]);
 	}
 
 	static concatInternal(...buffers: Buffer[]) {
@@ -138,7 +144,7 @@ export class FixedLengthBuffer extends Buffer {
 	}
 
 	static fromHex(hex: hexString) {
-		assert(!(hex.length & 1));
+		assert(!(hex.length & 1), 'The length of hex string must be even');
 		return new FixedLengthBuffer(4, hex, hex.length >> 1);
 	}
 
@@ -147,7 +153,7 @@ export class FixedLengthBuffer extends Buffer {
 		if (typeof length === 'number') {
 			buffer[left] = 4;
 			buffer[internal][4] = buffer[internal][5].toString(16).padStart(length * 2, '0');
-			assert(buffer[internal][4].length === length * 2);
+			assert(buffer[internal][4].length === length * 2, 'The provided length is too short for the bigint');
 		} else {
 			buffer.length = buffer.asHex().length >> 1;
 		}

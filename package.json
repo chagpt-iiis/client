@@ -1,30 +1,31 @@
 {
 	"dependencies": {
 		"idb": "^8.0.0",
-		"monaco-editor": "^0.45.0",
-		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
+		"monaco-editor": "^0.52.0",
+		"nanoassert": "^2.0.0",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
 		"semantic-ui-react": "^3.0.0-beta.0",
-		"socket.io-client": "^4.7.2",
-		"zustand": "^4.4.7"
+		"socket.io-client": "patch:socket.io-client@npm%3A4.8.0#~/.yarn/patches/socket.io-client-npm-4.8.0-2867c0e0ec.patch",
+		"zustand": "^4.5.5"
 	},
 	"devDependencies": {
-		"@rollup/plugin-commonjs": "^25.0.7",
-		"@rollup/plugin-node-resolve": "^15.2.3",
-		"@rollup/plugin-replace": "^5.0.5",
-		"@types/react": "^18.2.45",
-		"@types/react-dom": "^18.2.18",
-		"@typescript-eslint/eslint-plugin": "^6.15.0",
-		"eslint": "^8.56.0",
-		"eslint-plugin-react": "^7.33.2",
+		"@rollup/plugin-commonjs": "^28.0.0",
+		"@rollup/plugin-node-resolve": "^15.3.0",
+		"@rollup/plugin-replace": "^6.0.1",
+		"@types/nanoassert": "^2.0.3",
+		"@types/react": "^18.3.11",
+		"@types/react-dom": "^18.3.0",
+		"@typescript-eslint/eslint-plugin": "^8.8.0",
+		"esbuild": "^0.24.0",
+		"eslint": "^9.11.1",
+		"eslint-plugin-react": "^7.37.1",
 		"patch-package": "^8.0.0",
-		"rollup": "^4.9.1",
-		"rollup-plugin-esbuild": "^6.1.0",
-		"rollup-plugin-external-globals": "^0.9.1"
+		"rollup": "patch:rollup@npm%3A4.24.0#~/.yarn/patches/rollup-npm-4.24.0-e772e759c0.patch",
+		"rollup-plugin-esbuild": "patch:rollup-plugin-esbuild@npm%3A6.1.1#~/.yarn/patches/rollup-plugin-esbuild-npm-6.1.1-8b18af7799.patch",
+		"rollup-plugin-external-globals": "^0.12.0"
 	},
-	"overrides": {
-		"rollup": "^4.9.1"
-	},
+	"packageManager": "yarn@^4.5.0",
 	"private": true,
 	"scripts": {
 		"build": "node build.js",
@@ -32,8 +33,7 @@
 		"prod": "NODE_ENV=production node build.js",
 		"clean": "rm -rf dist",
 		"check": "tsc --noEmit",
-		"lint": "eslint src",
-		"postinstall": "patch-package"
+		"lint": "eslint src"
 	},
 	"type": "module"
 }

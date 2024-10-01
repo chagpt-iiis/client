@@ -1,5 +1,5 @@
+import assert from 'nanoassert';
 import { create, type StoreApi, type UseBoundStore } from 'zustand';
-import { assert } from './type';
 
 const isMobileQuery = window.matchMedia('only screen and (max-width: 991px)');
 

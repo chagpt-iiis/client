@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta charset="utf-8" />
+		<title>Danmaku</title>
+
+		<script defer="defer" src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js" crossorigin="anonymous" integrity="sha256-2Unxw2h67a3O2shSYYZfKbF80nOZfn9rK/xTsvnUxN0="></script>
+		<link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.esm.min.js" crossorigin="anonymous" integrity="sha256-Wt2UV5Gru6rxjtTa2fIR3FeuxHqB+/ddg+TUDb7rgs4=" />
+
+		<link rel="preload" as="script" href="/js/libs.js" crossorigin="anonymous" />
+		<script type="module" src="/js/danmaku.js" crossorigin="anonymous"></script>
+		<style>
+			#root {
+				height: 600px;
+				width: 160px;
+				position: absolute;
+			}
+
+			#root>div {
+				font-family: WenQuanYi Micro Hei, Source Han Sans CN, Source Han Sans, WenQuanYi Zen Hei, Microsoft YaHei, SimHei, STHeiti, Hiragino Sans GB, sans-serif;
+				font-size: larger;
+				position: absolute;
+				text-shadow: 0px 0px 1px rgba(0, 0, 0, .4);
+				transition: bottom 0.5s linear;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="root">
+		</div>
+	</body>
+</html>

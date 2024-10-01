@@ -16,7 +16,7 @@ import 'monaco-editor/esm/vs/editor/contrib/comment/browser/comment';
 import 'monaco-editor/esm/vs/editor/contrib/contextmenu/browser/contextmenu';
 import 'monaco-editor/esm/vs/editor/contrib/folding/browser/folding';
 import 'monaco-editor/esm/vs/editor/contrib/format/browser/formatActions';
-import 'monaco-editor/esm/vs/editor/contrib/hover/browser/hover';
+import 'monaco-editor/esm/vs/editor/contrib/hover/browser/hoverContribution';
 import 'monaco-editor/esm/vs/editor/contrib/linesOperations/browser/linesOperations';
 import 'monaco-editor/esm/vs/editor/contrib/multicursor/browser/multicursor';
 import 'monaco-editor/esm/vs/editor/standalone/browser/quickAccess/standaloneCommandsQuickAccess';

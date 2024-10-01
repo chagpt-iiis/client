@@ -1,9 +1,9 @@
+import assert from 'nanoassert'
 import { createElement, Fragment, useEffect, useRef } from 'react';
 import { Table } from 'semantic-ui-react';
 
 import { create, StoreApi, UseBoundStore } from 'zustand';
 import { api } from '../libs/api';
-import { assert } from '../util/type';
 
 interface Program {
 	id: number;
@@ -58,7 +58,7 @@ const RepertoireRegion: React.FC<RepertoireProps> = props => {
 									key={program.id}
 									active={program.id === repertoire.current}
 									positive={program.id < repertoire.current}
-									ref={(ref: HTMLElement) => {
+									ref={(ref: HTMLTableCellElement | null) => {
 										if (program.id === repertoire.current) {
 											current.current = ref;
 										}

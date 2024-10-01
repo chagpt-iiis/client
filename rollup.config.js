@@ -41,13 +41,14 @@ export default Promise.resolve().then(() => defineConfig({
 			case 'react': return true;
 			case 'react-dom/client': return true;
 			case 'semantic-ui-react': return true;
-			case 'socket.io-client': return 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.esm.min.js';
+			case 'socket.io-client': return 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.esm.min.js';
 		}
 		return false;
 	},
 	input: {
-		chagpt: './src/pages/main.tsx',
+		main: './src/pages/main.tsx',
 		admin: './src/pages/admin.tsx',
+		danmaku: './src/pages/danmaku.ts',
 		/******** monaco-editor workers ********/
 		'editor.worker': `./node_modules/${WORKER_MODULE.DEFAULT.identifier}`,
 		'json.worker': `./node_modules/${WORKER_MODULE.JSON.identifier}`,

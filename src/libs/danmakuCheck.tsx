@@ -1,9 +1,9 @@
+import assert from 'nanoassert';
 import { createElement } from 'react';
 import type { Manager } from 'socket.io-client';
 
 import DanmakuCheckRow from '../components/DanmakuCheckRow';
 import type { ListenEvents } from '../util/socket';
-import { assert } from '../util/type';
 
 const timer = Symbol(), confirm = Symbol();
 

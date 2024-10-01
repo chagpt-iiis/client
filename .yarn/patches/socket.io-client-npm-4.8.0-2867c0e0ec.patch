@@ -1,7 +1,7 @@
-diff --git a/node_modules/socket.io-client/build/esm/manager.d.ts b/node_modules/socket.io-client/build/esm/manager.d.ts
-index cb5dbb1..045cd79 100644
---- a/node_modules/socket.io-client/build/esm/manager.d.ts
-+++ b/node_modules/socket.io-client/build/esm/manager.d.ts
+diff --git a/build/esm/manager.d.ts b/build/esm/manager.d.ts
+index b63adc0ced6bd34eb1b2a4d944e39e7b35d3fd04..ed7d40750c9e0a12f50176f59b9fca1aa7553875 100644
+--- a/build/esm/manager.d.ts
++++ b/build/esm/manager.d.ts
 @@ -70,7 +70,7 @@ interface ManagerReservedEvents {
      reconnect_error: (err: Error) => void;
      reconnect: (attempt: number) => void;
