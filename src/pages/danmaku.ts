@@ -12,7 +12,7 @@ const pool = Array.from({ length: 100 }, () => {
 root.append(...pool);
 const alive = new Set<HTMLDivElement>();
 
-const conn = socket(new URL('https://43.138.56.99/danmaku'));
+const conn = socket(new URL('/danmaku', location.origin));
 conn.on('open', () => conn.engine.send(emitterSecret));
 conn.on('data', async data => {
 	let content: string, color: number;

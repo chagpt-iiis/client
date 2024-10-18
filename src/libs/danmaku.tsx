@@ -136,7 +136,7 @@ export class DanmakuManager {
 	}
 
 	async readFromDB() {
-		const db = await openDB('chagpt', 1, {
+		const db = await openDB('cellxx', 1, {
 			upgrade(db) {
 				if (!db.objectStoreNames.contains('danmaku')) {
 					db.createObjectStore('danmaku');
@@ -151,7 +151,7 @@ export class DanmakuManager {
 	}
 
 	async export() {
-		const db = await openDB('chagpt', 1, {
+		const db = await openDB('cellxx', 1, {
 			upgrade(db) {
 				if (!db.objectStoreNames.contains('danmaku')) {
 					db.createObjectStore('danmaku');

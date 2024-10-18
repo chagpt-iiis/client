@@ -5,7 +5,7 @@ import { Container } from 'semantic-ui-react';
 import Header from './components/util/Header';
 
 import './styles/main.css';
-import './styles/chagpt.css';
+import './styles/cellxx.css';
 
 function initOptimizeResize() {
 	let running = false;

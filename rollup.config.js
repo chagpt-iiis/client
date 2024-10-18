@@ -24,7 +24,7 @@ function splitRule(id) {
 	}
 	if (relaPath.startsWith('src/pages/'))
 		return 'entry';
-	if (relaPath === 'node_modules/monaco-editor/esm/vs/nls.js')
+	if (relaPath === 'node_modules/monaco-editor/esm/vs/nls.js' || relaPath === 'node_modules/monaco-editor/esm/vs/nls.messages.js')
 		return 'monaco-common';
 	if (/^node_modules\/monaco-editor\/esm\/vs\/.+\/common\//.test(relaPath))
 		return 'monaco-common';

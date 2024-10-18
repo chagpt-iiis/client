@@ -127,7 +127,7 @@ const DanmakuRegion: React.FC<DanmakuRegionProps> = props => {
 							onClick={() => setColorByTheme(color)}
 						/>
 					))}
-					<div className={isLight ? 'color-demo danmaku-light' : 'color-demo'} style={{ color: `#${color.toString(16).padStart(6, '0')}${alpha.toString(16).padStart(2, '0')}` }}>CháGPT</div>
+					<div className={isLight ? 'color-demo danmaku-light' : 'color-demo'} style={{ color: `#${color.toString(16).padStart(6, '0')}${alpha.toString(16).padStart(2, '0')}` }}>此去经廿💞格物致知</div>
 				</div>
 				<div className="color-alpha-controller">
 					<div>

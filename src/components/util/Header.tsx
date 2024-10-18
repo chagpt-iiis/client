@@ -6,8 +6,8 @@ const Header: React.FC = () => {
 		<Menu fixed="top" borderless>
 			<Container>
 				<Menu.Item>
-					<img src="/logo.svg" style={{ marginRight: '.71428571rem' }} />
-					<img src="/chagpt.svg" style={{ width: '7.5rem' }} />
+					<img src="/machine.png" style={{ marginRight: '.71428571rem' }} />
+					<img src="/cellxx.png" style={{ width: '7.5rem' }} />
 				</Menu.Item>
 				<Menu.Menu position="right">
 					<img src="/iiis.png" style={{ height: '3rem', margin: 'auto' }} />

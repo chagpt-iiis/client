@@ -13,7 +13,7 @@ import { date2str } from '../util/date';
 
 type CheckFunction = (content: string, color: number) => Promise<number>;
 
-const conn = socket(new URL('https://43.138.56.99/admin')), api = new Emitter();
+const conn = socket(new URL('/admin', location.origin)), api = new Emitter();
 conn.on('data', (data: string | ArrayBuffer) => {
 	let json, type;
 	try {

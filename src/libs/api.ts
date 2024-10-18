@@ -1,6 +1,6 @@
 import { Emitter, socket } from '../util/socket';
 
-export const conn = socket(new URL('https://43.138.56.99/main')), api = new Emitter();
+export const conn = socket(new URL('/main', location.origin)), api = new Emitter();
 conn.on('data', (data: string | ArrayBuffer) => {
 	let json, type;
 	try {
